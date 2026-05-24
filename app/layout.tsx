@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import { Providers } from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: { default: 'Sportok', template: '%s · Sportok' },
@@ -15,7 +16,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ka" suppressHydrationWarning>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
