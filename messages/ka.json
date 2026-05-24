@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "football": "ფეხბურთი",
+    "basketball": "კალათბურთი",
+    "tennis": "ჩოგბურთი",
+    "news": "სპორტ სიახლეები",
+    "login": "შესვლა",
+    "register": "რეგისტრაცია",
+    "logout": "გასვლა"
+  },
+  "home": {
+    "upcoming": "მომავალი თამაშები",
+    "live": "ცოცხალი",
+    "news": "სიახლეები",
+    "advertisement": "რეკლამის ადგილი",
+    "matchesAnalysis": "თამაშების ანალიზი",
+    "viewAll": "ყველას ნახვა",
+    "today": "დღეს",
+    "tomorrow": "ხვალ"
+  },
+  "match": {
+    "preview": "თამაშის პროგნოზი",
+    "analysis": "თამაშის ანალიზი",
+    "recommendedBet": "რეკომენდირებული ფსონი",
+    "odds": "კოეფიციენტი",
+    "lastMatches": "ბოლო თამაშები",
+    "homeForm": "სახლის გუნდის ფორმა",
+    "awayForm": "სტუმარი გუნდის ფორმა",
+    "h2h": "პირისპირ თამაშები",
+    "relatedNews": "დაკავშირებული სიახლეები",
+    "moreMatches": "ნახე სხვა თამაშები",
+    "stadium": "სტადიონი",
+    "referee": "მსაჯი",
+    "league": "ლიგა",
+    "kickoff": "დაწყება",
+    "win": "ფ",
+    "draw": "ფრე",
+    "loss": "წ",
+    "form": "ფორმა"
+  },
+  "news": {
+    "title": "სიახლეები",
+    "readMore": "სრულად ნახვა",
+    "publishedOn": "გამოქვეყნდა",
+    "by": "ავტორი",
+    "minRead": "წთ კითხვა"
+  },
+  "auth": {
+    "loginTitle": "ანგარიშზე შესვლა",
+    "registerTitle": "ანგარიშის რეგისტრაცია",
+    "email": "ელ. ფოსტა",
+    "password": "პაროლი",
+    "confirmPassword": "გაიმეორე პაროლი",
+    "name": "სახელი",
+    "loginBtn": "შესვლა",
+    "registerBtn": "რეგისტრაცია",
+    "haveAccount": "უკვე გაქვს ანგარიში?",
+    "noAccount": "არ გაქვს ანგარიში?",
+    "or": "ან",
+    "googleSignIn": "Google-ით შესვლა",
+    "forgotPassword": "დაგავიწყდა პაროლი?"
+  },
+  "footer": {
+    "rights": "ყველა უფლება დაცულია",
+    "responsibleGambling": "თამაშობდი პასუხისმგებლობით. 18+",
+    "about": "ჩვენ შესახებ",
+    "terms": "წესები და პირობები",
+    "privacy": "კონფიდენციალურობა",
+    "contact": "კონტაქტი"
+  },
+  "common": {
+    "loading": "იტვირთება...",
+    "error": "შეცდომა",
+    "minute": "წთ",
+    "vs": "VS"
+  }
+}

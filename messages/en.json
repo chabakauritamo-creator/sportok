@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "football": "Football",
+    "basketball": "Basketball",
+    "tennis": "Tennis",
+    "news": "Sports News",
+    "login": "Sign in",
+    "register": "Sign up",
+    "logout": "Sign out"
+  },
+  "home": {
+    "upcoming": "Upcoming matches",
+    "live": "Live",
+    "news": "News",
+    "advertisement": "Advertisement",
+    "matchesAnalysis": "Match analysis",
+    "viewAll": "View all",
+    "today": "Today",
+    "tomorrow": "Tomorrow"
+  },
+  "match": {
+    "preview": "Match preview",
+    "analysis": "Match analysis",
+    "recommendedBet": "Recommended bet",
+    "odds": "Odds",
+    "lastMatches": "Last matches",
+    "homeForm": "Home team form",
+    "awayForm": "Away team form",
+    "h2h": "Head to head",
+    "relatedNews": "Related news",
+    "moreMatches": "See more matches",
+    "stadium": "Stadium",
+    "referee": "Referee",
+    "league": "League",
+    "kickoff": "Kickoff",
+    "win": "W",
+    "draw": "D",
+    "loss": "L",
+    "form": "Form"
+  },
+  "news": {
+    "title": "News",
+    "readMore": "Read more",
+    "publishedOn": "Published",
+    "by": "by",
+    "minRead": "min read"
+  },
+  "auth": {
+    "loginTitle": "Sign in to your account",
+    "registerTitle": "Create your account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "name": "Name",
+    "loginBtn": "Sign in",
+    "registerBtn": "Sign up",
+    "haveAccount": "Already have an account?",
+    "noAccount": "Don't have an account?",
+    "or": "or",
+    "googleSignIn": "Continue with Google",
+    "forgotPassword": "Forgot your password?"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "responsibleGambling": "Gamble responsibly. 18+",
+    "about": "About",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "contact": "Contact"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "minute": "'",
+    "vs": "VS"
+  }
+}
