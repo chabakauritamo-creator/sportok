@@ -2,14 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import type { Dictionary } from '@/i18n/config';
 
 type Mode = 'login' | 'register';
 
 export function AuthCard({ mode, locale, t }: { mode: Mode; locale: string; t: Dictionary }) {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -43,23 +41,27 @@ export function AuthCard({ mode, locale, t }: { mode: Mode; locale: string; t: D
       }
 
       // Auto-login after register
-      const result = await signIn('credentials', { email, password, redirect: false });
-      if (result?.error) {
-        setMsg(locale === 'ka' ? 'რეგისტრაცია შესრულდა. გთხოვთ შეხვიდეთ.' : 'Registered. Please sign in.');
+      const loginResult = await signIn('credentials', { email, password, redirect: false });
+      if (loginResult?.error) {
+        setMsg(locale === 'ka' ? 'რეგისტრაცია შესრულდა. გთხოვთ შეხვიდეთ.' : 'Registered! Please sign in.');
         setPending(false);
         return;
       }
     } else {
       const result = await signIn('credentials', { email, password, redirect: false });
       if (result?.error) {
-        setMsg(locale === 'ka' ? 'არასწორი ელ-ფოსტა ან პაროლი.' : 'Invalid email or password.');
+        const isCredErr = result.error === 'CredentialsSignin';
+        setMsg(
+          isCredErr
+            ? (locale === 'ka' ? 'არასწორი ელ-ფოსტა ან პაროლი.' : 'Invalid email or password.')
+            : (locale === 'ka' ? 'შეცდომა. სცადეთ თავიდან.' : 'Something went wrong. Please try again.')
+        );
         setPending(false);
         return;
       }
     }
 
-    router.push(`/${locale}`);
-    router.refresh();
+    window.location.href = `/${locale}`;
   };
 
   return (
@@ -104,7 +106,11 @@ export function AuthCard({ mode, locale, t }: { mode: Mode; locale: string; t: D
         <div className="h-px flex-1 bg-[var(--color-border)]" />
       </div>
 
-      <button type="button" className="btn btn-ghost w-full">
+      <button
+        type="button"
+        className="btn btn-ghost w-full"
+        onClick={() => signIn('google', { callbackUrl: `/${locale}` })}
+      >
         {t.auth.googleSignIn}
       </button>
 
