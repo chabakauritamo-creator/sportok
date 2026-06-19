@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary, isLocale } from '@/i18n/config';
-import { mockData } from '@/lib/mock-data';
 import { notFound } from 'next/navigation';
 import { ThreeColumn } from '@/components/ThreeColumn';
 import { FormTable } from '@/components/FormTable';
@@ -10,17 +9,38 @@ import { AdSlot } from '@/components/AdSlot';
 import { MatchCard } from '@/components/MatchCard';
 import { NewsCard } from '@/components/NewsCard';
 import { formatKickoff } from '@/lib/utils';
+import { connectDB } from '@/lib/db';
+import { Match as MatchModel } from '@/models/Match';
+import { NewsArticle as NewsArticleModel } from '@/models/NewsArticle';
+import type { Match, NewsArticle } from '@/lib/types';
+
+function normalizeMatch(m: any): Match {
+  return { ...m, id: String(m._id), kickoff: new Date(m.kickoff).toISOString() } as Match;
+}
+
+function normalizeArticle(a: any): NewsArticle {
+  return { ...a, id: String(a._id), publishedAt: new Date(a.publishedAt).toISOString() } as NewsArticle;
+}
 
 export default async function MatchPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
-  const match = mockData.bySlug(slug);
-  if (!match) notFound();
-  const { date, time } = formatKickoff(match.kickoff, locale);
 
+  await connectDB();
+  const [rawMatch, rawOther, rawNews] = await Promise.all([
+    MatchModel.findOne({ slug }).lean(),
+    MatchModel.find({ slug: { $ne: slug } }).limit(4).lean(),
+    NewsArticleModel.find({}).limit(3).lean(),
+  ]);
+  if (!rawMatch) notFound();
+
+  const match = normalizeMatch(rawMatch);
+  const otherMatches = rawOther.map(normalizeMatch);
+  const relatedNews = rawNews.map(normalizeArticle);
+
+  const { date, time } = formatKickoff(match.kickoff, locale);
   const preview = match.preview?.[locale];
-  const otherMatches = mockData.allMatches.filter((m) => m.id !== match.id).slice(0, 4);
 
   return (
     <ThreeColumn locale={locale} t={t}>
@@ -90,7 +110,7 @@ export default async function MatchPage({ params }: { params: Promise<{ locale: 
         <section>
           <h2 className="heading-accent mb-4">{t.match.relatedNews}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {mockData.relatedNews(3).map((n) => (
+            {relatedNews.map((n) => (
               <NewsCard key={n.id} article={n} locale={locale} variant="grid" />
             ))}
           </div>
@@ -118,8 +138,11 @@ export default async function MatchPage({ params }: { params: Promise<{ locale: 
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params;
-  const match = mockData.bySlug(slug);
-  if (!match || !isLocale(locale)) return {};
+  if (!isLocale(locale)) return {};
+  await connectDB();
+  const rawMatch = await MatchModel.findOne({ slug }).lean();
+  if (!rawMatch) return {};
+  const match = normalizeMatch(rawMatch);
   return {
     title: `${match.home.name[locale]} — ${match.away.name[locale]}`,
     description: match.preview?.[locale]?.body.slice(0, 160),

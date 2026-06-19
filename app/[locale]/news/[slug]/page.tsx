@@ -1,9 +1,15 @@
 import Image from 'next/image';
 import { getDictionary, isLocale } from '@/i18n/config';
 import { ThreeColumn } from '@/components/ThreeColumn';
-import { mockData } from '@/lib/mock-data';
 import { notFound } from 'next/navigation';
 import { NewsCard } from '@/components/NewsCard';
+import { connectDB } from '@/lib/db';
+import { NewsArticle as NewsArticleModel } from '@/models/NewsArticle';
+import type { NewsArticle } from '@/lib/types';
+
+function normalizeArticle(a: any): NewsArticle {
+  return { ...a, id: String(a._id), publishedAt: new Date(a.publishedAt).toISOString() } as NewsArticle;
+}
 
 export default async function NewsArticlePage({
   params,
@@ -13,10 +19,16 @@ export default async function NewsArticlePage({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
   const t = await getDictionary(locale);
-  const article = mockData.newsBySlug(slug);
-  if (!article) notFound();
 
-  const related = mockData.news.filter((n) => n.id !== article.id).slice(0, 3);
+  await connectDB();
+  const [rawArticle, rawRelated] = await Promise.all([
+    NewsArticleModel.findOne({ slug }).lean(),
+    NewsArticleModel.find({ slug: { $ne: slug } }).limit(3).lean(),
+  ]);
+  if (!rawArticle) notFound();
+
+  const article = normalizeArticle(rawArticle);
+  const related = rawRelated.map(normalizeArticle);
 
   return (
     <ThreeColumn locale={locale} t={t}>
