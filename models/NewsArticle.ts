@@ -10,6 +10,10 @@ export interface INewsArticle extends Document {
   title: { ka: string; en: string };
   excerpt: { ka: string; en: string };
   body: { ka: string; en: string };
+  status: 'draft' | 'published' | 'hidden';
+  featured: boolean;
+  seoTitle: { ka: string; en: string };
+  seoDescription: { ka: string; en: string };
 }
 
 const BilingualSchema = new Schema({ ka: String, en: String }, { _id: false });
@@ -24,6 +28,10 @@ const NewsArticleSchema = new Schema<INewsArticle>({
   title: { type: BilingualSchema, required: true },
   excerpt: { type: BilingualSchema, required: true },
   body: { type: BilingualSchema, required: true },
+  status: { type: String, enum: ['draft', 'published', 'hidden'], default: 'draft' },
+  featured: { type: Boolean, default: false },
+  seoTitle: { type: BilingualSchema, default: () => ({ ka: '', en: '' }) },
+  seoDescription: { type: BilingualSchema, default: () => ({ ka: '', en: '' }) },
 });
 
 export const NewsArticle: Model<INewsArticle> =

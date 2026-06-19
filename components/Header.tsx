@@ -21,6 +21,14 @@ export async function Header({ locale, t }: { locale: string; t: Dictionary }) {
           <LanguageSwitcher locale={locale} />
           {session ? (
             <div className="flex items-center gap-3">
+              {session.user.role === 'admin' && (
+                <Link
+                  href="/admin"
+                  className="hidden sm:inline-flex items-center rounded-md border border-[var(--color-accent)] px-3 py-1 text-[12px] font-semibold text-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] transition-colors"
+                >
+                  Admin
+                </Link>
+              )}
               <span className="hidden sm:inline text-[13px] text-[var(--color-text-muted)]">
                 {session.user.name}
               </span>

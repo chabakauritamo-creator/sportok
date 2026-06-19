@@ -53,6 +53,10 @@ export interface IMatch extends Document {
   h2hLast5?: object[];
   preview?: object;
   hero?: string;
+  publishStatus: 'draft' | 'published' | 'hidden';
+  featured: boolean;
+  seoTitle: { ka: string; en: string };
+  seoDescription: { ka: string; en: string };
 }
 
 const MatchSchema = new Schema<IMatch>({
@@ -86,6 +90,10 @@ const MatchSchema = new Schema<IMatch>({
     en: { title: String, body: String },
   },
   hero: String,
+  publishStatus: { type: String, enum: ['draft', 'published', 'hidden'], default: 'draft' },
+  featured: { type: Boolean, default: false },
+  seoTitle: { type: BilingualSchema, default: () => ({ ka: '', en: '' }) },
+  seoDescription: { type: BilingualSchema, default: () => ({ ka: '', en: '' }) },
 });
 
 export const Match: Model<IMatch> =
