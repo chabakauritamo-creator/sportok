@@ -33,13 +33,25 @@ export default function ChatWidget({ locale, strings }: ChatWidgetProps) {
   const [streaming, setStreaming] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+
+  // Effect 1: focus input when chat opens
+  useEffect(() => {
     if (open) {
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
       inputRef.current?.focus();
     }
-  }, [open, messages]);
+  }, [open]);
+
+  // Effect 2: auto-scroll on new messages
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const sendMessage = async (content: string) => {
     if (!content.trim() || streaming) return;
@@ -53,6 +65,9 @@ export default function ChatWidget({ locale, strings }: ChatWidgetProps) {
     const assistantPlaceholder: Message = { role: 'assistant', content: '' };
     setMessages([...history, assistantPlaceholder]);
 
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -61,6 +76,7 @@ export default function ChatWidget({ locale, strings }: ChatWidgetProps) {
           messages: history.map(({ role, content }) => ({ role, content })),
           locale,
         }),
+        signal: controller.signal,
       });
 
       if (!res.ok || !res.body) throw new Error('stream_failed');
@@ -98,7 +114,8 @@ export default function ChatWidget({ locale, strings }: ChatWidgetProps) {
           }
         }
       }
-    } catch {
+    } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') return;
       setMessages((prev) => {
         const next = [...prev];
         next[next.length - 1] = { role: 'assistant', content: strings.error };
