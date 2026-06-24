@@ -44,20 +44,21 @@ export async function POST(req: NextRequest) {
     return new Response('AI service not configured', { status: 503 });
   }
 
-  let body: { messages: { role: string; content: string }[]; locale: string; context?: string };
+  let body: { messages: { role: string; content: string }[]; locale: string };
   try {
     body = await req.json();
   } catch {
     return new Response('Invalid request body', { status: 400 });
   }
 
-  const { messages, locale, context } = body;
+  const { messages, locale } = body;
 
   if (!Array.isArray(messages) || messages.length === 0) {
     return new Response('messages array required', { status: 400 });
   }
 
-  const systemPrompt = buildSystemPrompt(context);
+  const systemPrompt = buildSystemPrompt();
+  const truncatedMessages = messages.slice(-20);
 
   const upstream = await fetch(OPENROUTER_API_URL, {
     method: 'POST',
@@ -70,7 +71,7 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       model: MODEL,
       stream: true,
-      messages: [{ role: 'system', content: systemPrompt }, ...messages],
+      messages: [{ role: 'system', content: systemPrompt }, ...truncatedMessages],
     }),
   });
 
