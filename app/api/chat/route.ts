@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 
 const OPENROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-const MODEL = 'nvidia/nemotron-3-nano-30b-a3b:free';
+const MODEL = 'openai/gpt-4o-mini';
 
 function buildSystemPrompt(context?: string): string {
   // CONTEXT_BLOCK: future phases inject MongoDB match/odds/news data here.
