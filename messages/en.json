@@ -75,15 +75,15 @@
     "vs": "VS"
   },
   "chat": {
-    "title": "Sportok AI Assistant",
-    "subtitle": "Sports analyst & advisor",
-    "placeholder": "Ask about football, basketball, tennis...",
+    "title": "Sportok AI",
+    "subtitle": "Sports analyst",
+    "placeholder": "Ask about sports...",
     "send": "Send",
-    "thinking": "Analyzing...",
-    "welcome": "Hi! I'm your Sportok AI Assistant. Ask me anything about sports — teams, players, history, tactics, or tournament formats.",
-    "error": "Unable to reach AI service. Please try again.",
-    "noLiveData": "Live scores and real-time data are not yet available. I can help with general sports knowledge, historical data, and analysis.",
+    "stop": "Stop",
+    "thinking": "Thinking...",
+    "welcome": "Hi! I'm Sportok AI — your sports assistant. Ask me about football, basketball, tennis — teams, players, tactics, or tournaments.",
+    "error": "Unable to reach the AI service. Please try again.",
     "close": "Close chat",
-    "open": "Open AI chat assistant"
+    "open": "Open Sportok AI"
   }
 }
