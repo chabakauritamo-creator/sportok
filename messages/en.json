@@ -73,5 +73,17 @@
     "error": "Error",
     "minute": "'",
     "vs": "VS"
+  },
+  "chat": {
+    "title": "Sportok AI",
+    "subtitle": "Sports analyst",
+    "placeholder": "Ask about sports...",
+    "send": "Send",
+    "stop": "Stop",
+    "thinking": "Thinking...",
+    "welcome": "Hi! I'm Sportok AI — your sports assistant. Ask me about football, basketball, tennis — teams, players, tactics, or tournaments.",
+    "error": "Unable to reach the AI service. Please try again.",
+    "close": "Close chat",
+    "open": "Open Sportok AI"
   }
 }
